@@ -18,20 +18,20 @@ Hiperparâmetros:
 
 Variáveis:
 \[ t: \textrm{epoca} \]
-\[ g: \textrm{vetor de gradientes} \]
-\[ m: \textrm{vetor de momentos} \]
-\[ v: \textrm{vetor de velocidades} \]
-\[ w: \textrm{vetor de pesos} \]
+\[ \mathbf{g}: \textrm{vetor de gradientes} \]
+\[ \mathbf{m}: \textrm{vetor de momentos} \]
+\[ \mathbf{v}: \textrm{vetor de velocidades} \]
+\[ \mathbf{w}: \textrm{vetor de pesos} \]
 \vspace{3pc}
 
 Algoritmo (para cada época):
 \[ t := t + 1 \]
-\[ g_t := \frac{\partial E_{t-1}}{\partial w_{t-1}} \]
-\[ m_t := \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t \]
-\[ v_t := \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot (g_t \odot g_t) \]
-\[ \hat{m}_t := \frac{m_t}{1 - \beta_1} \]
-\[ \hat{v}_t := \frac{v_t}{1 - \beta_2} \]
-\[ w_t := w_{t-1} - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} \]
+\[ \mathbf{g}_t := \frac{\partial \mathbf{E}_{t-1}}{\partial \mathbf{w}_{t-1}} \]
+\[ \mathbf{m}_t := \beta_1 \cdot \mathbf{m}_{t-1} + (1 - \beta_1) \cdot \mathbf{g}_t \]
+\[ \mathbf{v}_t := \beta_2 \cdot \mathbf{v}_{t-1} + (1 - \beta_2) \cdot (\mathbf{g}_t \odot \mathbf{g}_t) \]
+\[ \mathbf{\hat{m}}_t := \frac{\mathbf{m}_t}{1 - \beta_1} \]
+\[ \mathbf{\hat{v}}_t := \frac{\mathbf{v}_t}{1 - \beta_2} \]
+\[ \mathbf{w}_t := \mathbf{w}_{t-1} - \alpha \cdot \frac{\mathbf{\hat{m}}_t}{\sqrt{\mathbf{\hat{v}}_t} + \epsilon} \]
 \vspace{3pc}
 
 O ajuste dos pesos deve ser adaptado para o caso de mini-batches.
