@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\begin{document}
+
+
+
+\centerline{\sc \large Adam}
+\vspace{.5pc}
+\centerline{\sc Resumo teórico}
+\vspace{4pc}
+
+Hiperparâmetros:
+\[ \alpha: \textrm{learning rate}  \]
+\[ \beta_1: 0.9 \]
+\[ \beta_2: 0.999 \]
+\[ \epsilon: 10^{-8} \]
+\vspace{3pc}
+
+Variáveis:
+\[ t: \textrm{epoca} \]
+\[ g: \textrm{vetor de gradientes} \]
+\[ m: \textrm{vetor de momentos} \]
+\[ v: \textrm{vetor de velocidades} \]
+\[ w: \textrm{vetor de pesos} \]
+\vspace{3pc}
+
+Algoritmo (para cada época):
+\[ t := t + 1 \]
+\[ g_t := \frac{\partial E_{t-1}}{\partial w_{t-1}} \]
+\[ m_t := \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t \]
+\[ v_t := \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot (g_t \odot g_t) \]
+\[ \hat{m}_t := \frac{m_t}{1 - \beta_1} \]
+\[ \hat{v}_t := \frac{v_t}{1 - \beta_2} \]
+\[ w_t := w_{t-1} - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} \]
+\vspace{3pc}
+
+O ajuste dos pesos deve ser adaptado para o caso de mini-batches.
+
+\end{document}
