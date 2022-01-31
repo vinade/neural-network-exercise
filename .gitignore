@@ -1,0 +1,16 @@
+bin/
+include/
+lib/
+lib64
+tmp/
+share/
+data/
+doc/*.mix
+doc/*.gz
+doc/*.log
+doc/*.aux
+
+__pycache__
+*.pyc
+pyvenv.cfg
+TODO.txt
