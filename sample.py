@@ -24,7 +24,15 @@ def select_batch(data, batch_size):
 
 def load_mnist():
     data_path = "data/mnist/"
-    return np.loadtxt(data_path + "train.csv", delimiter=",")
+    mnist_data = np.loadtxt(data_path + "train.csv", delimiter=",")
+    train_data = mnist_data[:, 1:]
+
+    mu = train_data.mean(axis=0)
+    std = train_data.mean(axis=0)
+    np.place(std, std == 0, 1)
+    mnist_data[:, 1:] = (train_data - mu) / std
+
+    return mnist_data
 
 
 print("carregando mnist...")
