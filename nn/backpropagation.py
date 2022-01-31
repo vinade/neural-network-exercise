@@ -40,7 +40,6 @@ class BackPropagation:
                 continue
 
             if layer.delta is not None:
-                # REVER ESSA MULTIPLICACAO, shape incompatíveis
                 layer.gradients = np.matmul(
                     layer.input_data.T, layer.delta) / layer.input_data.shape[0]
 
@@ -51,15 +50,12 @@ class BackPropagation:
                 continue
 
             delta = np.matmul(next_layer.delta, next_layer.weights.T[:, :-1])
-            # delta = np.matmul(next_layer.delta, next_layer.weights.T[:, 1:])
 
             if layer.output_prime is not None:
                 for i in range(delta.shape[0]):
                     delta[i] = np.matmul(layer.output_prime[i], delta[i])
-                # delta = layer.output_prime * delta
 
             layer.delta = delta
-            # REVER ESSA MULTIPLICACAO, shape incompatíveis
             layer.gradients = np.matmul(
                 layer.input_data.T, layer.delta) / layer.input_data.shape[0]
 

@@ -63,7 +63,6 @@ class Layer:
         if train:
             self.output = batch_Z
             self.output_prime = np.array(
-                # [[self.af.derivative(a) for a in item_output] for item_output in batch_A])
                 [self.af.derivative(item_output) for item_output in batch_A])
 
         return batch_Z
