@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\begin{document}
+
+
+
+\centerline{\sc \large Função de ativação: Sigmoid}
+\vspace{.5pc}
+\centerline{\sc Resumo teórico}
+\vspace{4pc}
+
+Função:
+\[ \sigma(x) = \frac{1}{1 + e^{-x}}  \]
+\[ \frac{\partial \sigma(x)}{\partial x} = \sigma(x) \cdot (1 - \sigma(x)) \]
+\vspace{4pc}
+
+Sigmoid numericamente estável:
+\[ \sigma(x) = \frac{1}{1 + e^{-x}} = \frac{e^{x}}{1 + e^{x}} \]
+
+Como cada versão é estável para um extremo de x [-inf, +inf]:
+\[ \sigma(x): \left\{\begin{array}{@{}l@{}}
+    \frac{e^{x}}{1 + e^{x}} : x < 0 \\
+    \\
+    \frac{1}{1 + e^{-x}} : x >= 0
+  \end{array}\right.\,. \]
+\vspace{4pc}
+
+A derivada fica, consequentemente, estável pela forma como ela é definida.
+
+\end{document}
