@@ -80,7 +80,7 @@ Layer:
 
 class Model:
 
-    def __init__(self, input_size, output_size, layers, loss_function='mse', optimizer='adam', weights_initilizer='normal'):
+    def __init__(self, input_size, output_size, layers, loss_function='mse', optimizer='adam', weights_initilizer='xavier'):
         self.input_size = input_size
         self.output_size = output_size
         self.layers = layers
