@@ -52,7 +52,12 @@ class AFSigmoid(ActivationFunction):
 
     @staticmethod
     def calc(x):
-        return 1 / (1 + np.exp(-x))
+        xz = x < 0
+        z = -np.abs(x)
+        divisor = (1 + z)
+        dividend = np.logical_or((xz * z), np.ones(x.shape))
+
+        return dividend / divisor
 
     @staticmethod
     def derivative(x):
