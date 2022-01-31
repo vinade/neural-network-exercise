@@ -165,9 +165,10 @@ class Model:
         output_data = self.fast_forward(input_data)
         return self.lf.calc(output_data, label_output_data)
 
-    def train(self, input_data, label_output_data, iterations=1):
+    def train(self, input_data, label_output_data, iterations=1, l2_rate=None):
         for i in range(iterations):
-            BackPropagation.train(self, input_data, label_output_data)
+            BackPropagation.train(
+                self, input_data, label_output_data, l2_rate=None)
 
     @staticmethod
     def load(filepath):

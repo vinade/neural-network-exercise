@@ -50,7 +50,7 @@ class AdamOptimizer(Optimizer):
             self.momentum.append(np.zeros(layer.gradients.shape))
             self.rms.append(np.zeros(layer.gradients.shape))
 
-    def update_weights(self, model):
+    def update_weights(self, model, l2_rate=None):
 
         if self.momentum is None:
             self.set_momentum(model)
@@ -75,6 +75,9 @@ class AdamOptimizer(Optimizer):
             momentum_hat = self.momentum[i] / (1 - beta1_epoch)
             rms_hat = self.rms[i] / (1 - beta2_epoch)
             delta = momentum_hat / (np.sqrt(rms_hat) + self.epsilon)
+
+            if l2_rate is not None:
+                delta = delta + l2_rate * layer.weights
 
             layer.weights = layer.weights - self.lr * delta
 

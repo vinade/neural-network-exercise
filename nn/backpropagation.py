@@ -30,7 +30,16 @@ class BackPropagation:
                 delta[i] = np.matmul(output_layer.output_prime[i], delta[i])
 
     @staticmethod
-    def update_weights(model):
+    def update_weights(lr, layer, l2_rate=None):
+        delta_w = layer.gradients
+
+        if delta_w is not None:
+            delta_w += l2_rate * layer.weights
+
+        layer.weights = layer.weights + lr * delta_w
+
+    @staticmethod
+    def optmize(model, l2_rate=None):
 
         lr = model.optimizer.lr
         next_layer = None
@@ -44,7 +53,7 @@ class BackPropagation:
                     layer.input_data.T, layer.delta) / layer.input_data.shape[0]
 
                 if not model.optimizer.post:
-                    layer.weights = layer.weights - lr * layer.gradients
+                    BackPropagation.update_weights(lr, layer, l2_rate)
 
                 next_layer = layer
                 continue
@@ -60,17 +69,17 @@ class BackPropagation:
                 layer.input_data.T, layer.delta) / layer.input_data.shape[0]
 
             if not model.optimizer.post:
-                layer.weights = layer.weights + lr * layer.gradients
+                BackPropagation.update_weights(lr, layer, l2_rate)
 
             next_layer = layer
 
     @staticmethod
-    def train(model, input_data, label_output_data):
+    def train(model, input_data, label_output_data, l2_rate=None):
 
         BackPropagation.fast_forward(model, input_data, label_output_data)
 
-        BackPropagation.update_weights(model)
+        BackPropagation.optmize(model, l2_rate)
         if model.optimizer.post:
-            model.optimizer.update_weights(model)
+            model.optimizer.update_weights(model, l2_rate)
 
         BackPropagation.clear_temp_data(model)
