@@ -52,11 +52,12 @@ class AFSigmoid(ActivationFunction):
 
     @staticmethod
     def calc(x):
-        xz = x < 0
-        z = -np.abs(x)
-        divisor = (1 + z)
-        dividend = np.logical_or((xz * z), np.ones(x.shape))
-
+        nx = x < 0
+        px = x >= 0
+        pz = np.exp(x)
+        nz = np.exp(-x)
+        divisor = 1 + (px * nz + nx * pz)
+        dividend = np.logical_and(px, np.ones(x.shape)) + nx * pz
         return dividend / divisor
 
     @staticmethod
@@ -74,8 +75,9 @@ class AFSoftmax(ActivationFunction):
 
     @staticmethod
     def derivative(x):
-        x = np.array(x)[np.newaxis]
-        return x * np.identity(x.size) - x.T @ x
+        p = AFSoftmax.calc(x)
+        pT = AFSoftmax.calc(x.T)
+        return p @ np.identity(p.shape[0]) - pT @ p
 
 
 class ActivationFunctions:
