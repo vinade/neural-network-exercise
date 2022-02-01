@@ -17,10 +17,6 @@ class LossFunction:
     def calc(y, Y):
         return np.sum(Y - y) / Y.size
 
-    @staticmethod
-    def calc_per_output(y, Y):
-        return Y - y
-
 
 class LossMSE(LossFunction):
 
@@ -33,10 +29,6 @@ class LossMSE(LossFunction):
         se = (Y - y) ** 2
         return np.sum(se) / Y.size
 
-    @staticmethod
-    def calc_per_output(y, Y):
-        return (Y - y) ** 2
-
 
 class LossBinaryCrossEntropy(LossFunction):
 
@@ -48,24 +40,12 @@ class LossBinaryCrossEntropy(LossFunction):
         left_part = (Y * complement_y)
         right_part = (y * (1 - Y))
         divisor = (y * complement_y) + epsilon
-        return (left_part - right_part)/divisor
+        return - (left_part - right_part)/divisor
 
     @staticmethod
     def calc(y, Y):
         loss = Y * np.log(y + epsilon) + (1 - Y) * np.log(1 - y + epsilon)
         return - np.sum(loss) / Y.size
-
-    @staticmethod
-    def calc_per_output(y, Y):
-        return (Y - y) ** 2
-
-    @staticmethod
-    def sigmoid(y):
-        return y
-
-    @staticmethod
-    def sigmoid_prime(y):
-        return y
 
 
 class LossCategoricalCrossEntropy(LossFunction):
@@ -80,10 +60,6 @@ class LossCategoricalCrossEntropy(LossFunction):
     def calc(y, Y):
         loss = Y * np.log(y + epsilon)
         return - np.sum(loss) / Y.size
-
-    @staticmethod
-    def calc_per_output(y, Y):
-        return - Y * np.log(y + epsilon)
 
 
 class LossFunctions:
