@@ -61,12 +61,7 @@ Revisitando a matriz jacobiana:
 \end{pmatrix}
 \end{equation*}
 
-Para a implementação é possível criar a Jacobiana a partir de uma matrix identidade:
+Para a implementação é possível criar a jacobiana usando uma matrix identidade:
 \[ \mathbf{J_{\pi}}(\mathbf{x}) = \pi \cdot \mathbf{I} - \pi^{T} \cdot \pi \]
-
-E finalmente, o valor da derivada da função vetorial, é calculado com a multiplicação da entrada com a jacobiana:
-
-\[ \pi^{,}(\mathbf{x}) = \mathbf{x} \cdot \mathbf{J_{\pi}}(\mathbf{x}) \]
-\[ \pi^{,}(\mathbf{x}) = \mathbf{x} \cdot (\pi \cdot \mathbf{I} - \pi^{T} \cdot \pi) \]
 
 \end{document}
