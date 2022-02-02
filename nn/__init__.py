@@ -57,15 +57,10 @@ class Layer:
 
             return batch_A
 
-        # batch_Z = np.array(
-        #     [self.af.calc(item_output) for item_output in batch_A])
         batch_Z = self.af.calc(batch_A)
 
         if train:
-            batch_len = batch_A.shape[0]
             self.output = batch_Z
-            # self.output_prime = np.array(
-            #     [self.af.derivative(batch_A[i], batch_Z[i]) for i in range(batch_len)])
             self.output_prime = self.af.derivative(batch_A, batch_Z)
 
         return batch_Z
