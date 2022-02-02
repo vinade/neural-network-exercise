@@ -1,8 +1,11 @@
 import math
 import numpy as np
+from .weights import XavierInitializer, HeNormalInitializer
 
 
 class ActivationFunction:
+
+    default_weight_init = XavierInitializer
 
     @staticmethod
     def calc(x, y=None):
@@ -15,6 +18,8 @@ class ActivationFunction:
 
 class AFRelu(ActivationFunction):
 
+    default_weight_init = HeNormalInitializer
+
     @staticmethod
     def calc(x, y=None):
         return (x > 0) * x
@@ -26,6 +31,7 @@ class AFRelu(ActivationFunction):
 
 class AFLeakyRelu(ActivationFunction):
 
+    default_weight_init = HeNormalInitializer
     alpha = 0.001
 
     @staticmethod

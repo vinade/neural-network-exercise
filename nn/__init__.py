@@ -1,9 +1,9 @@
 import json
 import numpy as np
-from .activation import ActivationFunctions
+from .activation import ActivationFunctions, ActivationFunction
 from .loss import LossFunctions
 from .optimizers import Optimizers
-from .weights import WeightInitializers
+from .weights import WeightInitializers, Initializer
 from .backpropagation import BackPropagation
 
 DEFAULT_LOSS_FUNCTION = 'mse'
@@ -15,7 +15,7 @@ class Layer:
     TYPE_INPUT = 1
     TYPE_OUTPUT = 2
 
-    def __init__(self, n, activation_function=None, weights=None, layer_type=None):
+    def __init__(self, n, activation_function=None, weights=None, layer_type=None, weights_initializer=None):
         self.size = n
         self.weights = None
         self.layer_type = layer_type
@@ -30,8 +30,26 @@ class Layer:
         if self.activation_function:
             self.af = ActivationFunctions.get(self.activation_function)
 
+        self.set_weights_initializer(weights_initializer)
+
         if weights:
             self.update_weights(weights)
+
+    def set_weights_initializer(self, weights_initializer=None):
+        if weights_initializer is not None:
+            if isinstance(weights_initializer, str):
+                weights_initializer = WeightInitializers.get(
+                    weights_initializer)
+            elif isinstance(weights_initializer, Initializer):
+                weights_initializer = weights_initializer
+            else:
+                weights_initializer = None
+
+        if weights_initializer is None:
+            activation_f = self.af or ActivationFunction
+            weights_initializer = activation_f.default_weight_init
+
+        self.weights_initializer = weights_initializer
 
     def update_weights(self, weights):
         self.weights = np.array(weights)
@@ -66,26 +84,22 @@ class Layer:
         return batch_Z
 
     def __str__(self):
+        weights_shape = self.weights.shape if self.weights is not None else None
         return f'''
-**********************************************************
-Layer:
-    size: {self.size}
-    type: {self.layer_type}
-    weights: {self.weights}
-**********************************************************
+-----------------------------------------------------------------------
+neurons: {self.size}\tactivation: {self.activation_function}\t{weights_shape}
 '''
 
 
 class Model:
 
-    def __init__(self, input_size, output_size, layers=[], loss_function='mse', optimizer='adam', weights_initilizer='xavier'):
+    def __init__(self, input_size, output_size, layers=[], loss_function='mse', optimizer='adam'):
         self.input_size = input_size
         self.output_size = output_size
         self.layers = layers
         self.loss_function = loss_function
         self.built = False
         self.lf = LossFunctions.get(self.loss_function)
-        self.weights_initilizer = WeightInitializers.get(weights_initilizer)
 
         if isinstance(optimizer, str):
             self.optimizer = Optimizers.get(optimizer)()
@@ -135,10 +149,13 @@ class Model:
 
             if previous_size:
                 weight_array_shape = (previous_size + 1, layer.size)
-                layer.weights = self.weights_initilizer.create_weights(
+                layer.weights = layer.weights_initializer.create_weights(
                     weight_array_shape)
 
             previous_size = layer.size
+
+        for layer in self.layers:
+            print(layer)
 
         self.built = True
 
