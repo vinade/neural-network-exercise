@@ -36,16 +36,12 @@ class LossBinaryCrossEntropy(LossFunction):
 
     @staticmethod
     def derivative(y, Y):
-        complement_y = (1 - y)
-        left_part = (Y * complement_y)
-        right_part = (y * (1 - Y))
-        divisor = (y * complement_y) + epsilon
-        return - (left_part - right_part)/divisor
+        return y - Y
 
     @staticmethod
     def calc(y, Y):
         loss = Y * np.log(y + epsilon) + (1 - Y) * np.log(1 - y + epsilon)
-        return - np.sum(loss) / Y.size
+        return - np.sum(loss) / Y.size[0]
 
 
 class LossCategoricalCrossEntropy(LossFunction):
@@ -54,12 +50,12 @@ class LossCategoricalCrossEntropy(LossFunction):
 
     @staticmethod
     def derivative(y, Y):
-        return - y / (Y + epsilon)
+        return y - Y
 
     @staticmethod
     def calc(y, Y):
         loss = Y * np.log(y + epsilon)
-        return - np.sum(loss) / Y.size
+        return - np.sum(loss) / Y.shape[0]
 
 
 class LossFunctions:

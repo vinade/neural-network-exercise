@@ -62,7 +62,7 @@ class Layer:
             return input_data
 
         modified_input = np.c_[input_data, np.ones(input_data.shape[0])]
-        batch_A = np.matmul(modified_input, self.weights)
+        batch_A = modified_input @ self.weights
 
         if train:
             self.input_data = modified_input
@@ -154,8 +154,7 @@ class Model:
 
             previous_size = layer.size
 
-        for layer in self.layers:
-            print(layer)
+        self.print()
 
         self.built = True
 
@@ -180,7 +179,7 @@ class Model:
     def train(self, input_data, label_output_data, iterations=1, l2_rate=None):
         for i in range(iterations):
             BackPropagation.train(
-                self, input_data, label_output_data, l2_rate=None)
+                self, input_data, label_output_data, l2_rate)
 
     @staticmethod
     def load(filepath):
@@ -211,7 +210,15 @@ class Model:
                       loss_function, optimizer_name)
         model.update_optimizer(optimizer_data)
 
-        for layer in model.layers:
-            print(layer)
+        model.print()
 
         return model
+
+    def print(self):
+        weights = 0
+        print('Resumo do modelo')
+        for layer in self.layers:
+            print(layer)
+            if layer.weights is not None:
+                weights += layer.weights.size
+        print(f'Pesos: {weights}')

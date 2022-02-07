@@ -1,3 +1,4 @@
+import json
 import math
 import numpy as np
 from .weights import XavierInitializer, HeNormalInitializer
@@ -95,7 +96,9 @@ class AFSoftmax(ActivationFunction):
     @staticmethod
     def derivative(x, y=None):
         X = AFSoftmax.calc(x)
-        return np.array([p @ np.identity(p.shape[0]) - p.T @ p for p in X])
+        X = X[:, np.newaxis, :]
+        m = np.array([p * np.identity(p.shape[1]) - p.T @ p for p in X])
+        return m
 
 
 class ActivationFunctions:
