@@ -60,8 +60,9 @@ mnist_data = load_mnist()
 
 print("criando modelo...")
 layers = [
-    Layer(256, AF.Relu),
-    Layer(64, AF.Relu),
+    Layer(128, AF.Relu),
+    Layer(128, AF.Relu),
+    Layer(16, AF.Tanh),
 ]
 
 model1 = Model(
@@ -71,13 +72,13 @@ model1.build()
 compare(mnist_data, 1000)
 
 print("Treino iniciado:")
-batch_size = 64
-for i in range(501):
+batch_size = 256
+for i in range(25001):
     input_data, label_output_data = select_batch(mnist_data, batch_size)
-    model1.train(input_data, label_output_data, 100)
+    model1.train(input_data, label_output_data, 1)
     output_data = model1.calc_loss(input_data, label_output_data)
 
-    if i % 100 == 0:
+    if i % 1000 == 0:
         print(f'{i} Erro: {output_data}')
         compare(mnist_data, 1000)
 
