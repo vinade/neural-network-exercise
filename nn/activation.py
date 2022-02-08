@@ -59,9 +59,7 @@ class AFTanh(ActivationFunction):
 
     @staticmethod
     def calc(x, y=None):
-        pz = np.exp(x)
-        nz = np.exp(-x)
-        return (pz - nz)/(pz + nz)
+        return np.tanh(x)
 
     @staticmethod
     def derivative(x, y=None):
