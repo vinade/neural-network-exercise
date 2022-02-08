@@ -69,8 +69,8 @@ class AdamOptimizer(Optimizer):
             self.momentum[i] = self.beta1 * self.momentum[i] + \
                 (1 - self.beta1) * layer.gradients
 
-            self.rms[i] = self.beta1 * self.rms[i] + \
-                (1 - self.beta1) * layer.gradients * layer.gradients
+            self.rms[i] = self.beta2 * self.rms[i] + \
+                (1 - self.beta2) * layer.gradients * layer.gradients
 
             momentum_hat = self.momentum[i] / (1 - beta1_epoch)
             rms_hat = self.rms[i] / (1 - beta2_epoch)
